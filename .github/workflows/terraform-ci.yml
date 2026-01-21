@@ -3,14 +3,14 @@ name: Terraform CI
 on:
   pull_request:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 permissions:
   contents: read
 
 jobs:
   terraform:
-    name: fmt / validate
+    name: fmt / validate (dev)
     runs-on: ubuntu-latest
 
     defaults:
