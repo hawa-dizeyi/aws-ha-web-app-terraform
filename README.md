@@ -8,6 +8,9 @@ engineering practices and AWS best practices.
 
 ---
 
+![Terraform CI](../../actions/workflows/terraform-ci.yml/badge.svg)
+
+
 ## Current Status
 
 ✅ Network layer completed  
