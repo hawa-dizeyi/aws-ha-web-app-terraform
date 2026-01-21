@@ -13,3 +13,28 @@ module "network" {
 
   single_nat_gateway = true
 }
+
+module "security" {
+  source = "../../modules/security"
+
+  project_name = var.project_name
+  environment  = var.environment
+  vpc_id       = module.network.vpc_id
+}
+
+module "compute" {
+  source = "../../modules/compute"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_id                 = module.network.vpc_id
+  public_subnet_ids      = module.network.public_subnet_ids
+  private_app_subnet_ids = module.network.private_app_subnet_ids
+
+  alb_sg_id = module.security.alb_sg_id
+  app_sg_id = module.security.app_sg_id
+
+  ec2_instance_profile_name = module.security.ec2_instance_profile_name
+  instance_type             = "t3.micro"
+}
