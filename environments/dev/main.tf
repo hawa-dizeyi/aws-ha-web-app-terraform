@@ -38,3 +38,30 @@ module "compute" {
   ec2_instance_profile_name = module.security.ec2_instance_profile_name
   instance_type             = "t3.micro"
 }
+
+module "database" {
+  source = "../../modules/database"
+
+  project_name            = var.project_name
+  environment             = var.environment
+  backup_retention_period = 1
+
+  vpc_id                = module.network.vpc_id
+  private_db_subnet_ids = module.network.private_db_subnet_ids
+  app_sg_id             = module.security.app_sg_id
+
+  db_name     = "appdb"
+  db_username = "admin"
+  db_password = var.db_password
+}
+
+module "monitoring" {
+  source = "../../modules/monitoring"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  alb_arn_suffix = module.compute.alb_arn_suffix
+  tg_arn_suffix  = module.compute.tg_arn_suffix
+  asg_name       = module.compute.asg_name
+}
