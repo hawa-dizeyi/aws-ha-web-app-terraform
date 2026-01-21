@@ -25,8 +25,9 @@ module "security" {
 module "compute" {
   source = "../../modules/compute"
 
-  project_name = var.project_name
-  environment  = var.environment
+  project_name    = var.project_name
+  environment     = var.environment
+  certificate_arn = var.certificate_arn
 
   vpc_id                 = module.network.vpc_id
   public_subnet_ids      = module.network.public_subnet_ids

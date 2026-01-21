@@ -1,3 +1,15 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+
+# Certificates / keys
+*.crt
+*.key
+
+# macOS
+.DS_Store
 **/.terraform/*
 **/.DS_Store
 **/terraform.tfstate
