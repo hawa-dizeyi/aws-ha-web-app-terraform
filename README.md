@@ -8,7 +8,7 @@ engineering practices and AWS best practices.
 
 ---
 
-![Terraform CI](../../actions/workflows/terraform-ci.yml/badge.svg)
+![Terraform CI](https://github.com/hawa-dizeyi/aws-ha-web-app-terraform/actions/workflows/terraform-ci.yml/badge.svg)
 
 
 ## Current Status
