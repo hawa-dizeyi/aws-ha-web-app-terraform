@@ -140,22 +140,22 @@ Examples include:
 
 project-01-ha-web-app/
 ├── environments/
-│ └── dev/
-│ ├── backend.tf
-│ ├── main.tf
-│ ├── providers.tf
-│ ├── variables.tf
-│ └── outputs.tf
+│   └── dev/
+│       ├── backend.tf
+│       ├── main.tf
+│       ├── providers.tf
+│       ├── variables.tf
+│       └── outputs.tf
 ├── modules/
-│ ├── network/
-│ ├── security/
-│ ├── compute/
-│ ├── database/
-│ └── monitoring/
+│   ├── network/
+│   ├── security/
+│   ├── compute/
+│   ├── database/
+│   └── monitoring/
 ├── iam/
-│ ├── github-oidc-trust.json
-│ ├── terraform-gh-policy.json
-│ └── terraform-backend-policy.json
+│   ├── github-oidc-trust.json
+│   ├── terraform-gh-policy.json
+│   └── terraform-backend-policy.json
 └── screenshots/
 
 ## Quick Explanation:
@@ -178,6 +178,16 @@ They include:
 
 ---
 
+## Notes
+
+Some design choices were made intentionally to reflect real-world tradeoffs:
+
+- A single NAT Gateway is used in dev to reduce cost (easy to extend to one per AZ)
+- AWS Systems Manager (SSM) is used instead of SSH for instance access
+- Network routing and security are explicit rather than relying on AWS defaults
+- CI/CD uses OIDC to avoid managing static credentials
+
+
 ## Running locally (dev)
 
 From the repository root:
@@ -187,12 +197,3 @@ cd environments/dev
 terraform init
 terraform plan
 terraform apply
-
-## Notes
-
-Some design choices were made intentionally to reflect real-world tradeoffs:
-
-- A single NAT Gateway is used in dev to reduce cost (easy to extend to one per AZ)
-- AWS Systems Manager (SSM) is used instead of SSH for instance access
-- Network routing and security are explicit rather than relying on AWS defaults
-- CI/CD uses OIDC to avoid managing static credentials
