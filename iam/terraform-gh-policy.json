@@ -1,0 +1,51 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "TerraformStateBucketList",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::ha-cloud-terraform-state-hawser-v1",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["project-01/*"]
+        }
+      }
+    },
+    {
+      "Sid": "TerraformStateObjectRW",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject","s3:PutObject","s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::ha-cloud-terraform-state-hawser-v1/project-01/*"
+    },
+    {
+      "Sid": "TerraformLockTable",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "arn:aws:dynamodb:us-east-1:396081123408:table/terraform-locks"
+    },
+    {
+      "Sid": "TerraformManageAWS",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "elasticloadbalancing:*",
+        "autoscaling:*",
+        "iam:*",
+        "rds:*",
+        "cloudwatch:*",
+        "logs:*",
+        "ssm:*",
+        "acm:*",
+        "tag:GetResources"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

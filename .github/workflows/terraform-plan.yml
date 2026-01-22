@@ -10,10 +10,11 @@ permissions:
 jobs:
   plan:
     runs-on: ubuntu-latest
+    environment: prod
 
     env:
-      TF_VAR_db_password: ${{ secrets.TF_VAR_db_password }}
-      TF_VAR_certificate_arn: ${{ secrets.TF_VAR_certificate_arn }}
+      TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
+      TF_VAR_certificate_arn: ${{ secrets.TF_VAR_CERTIFICATE_ARN }}
 
     defaults:
       run:
@@ -34,32 +35,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::396081123408:role/GitHubActionsTerraformRole
           aws-region: us-east-1
-
-      - name: Verify AWS identity (OIDC)
-        run: aws sts get-caller-identity
-
-      - name: Debug AWS env (safe)
-        run: |
-          echo "AWS_PROFILE=${AWS_PROFILE:-<empty>}"
-          echo "AWS_REGION=${AWS_REGION:-<empty>}"
-          echo "AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-<empty>}"
-          echo "AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-<empty>}"
-          echo "AWS_CONFIG_FILE=${AWS_CONFIG_FILE:-<empty>}"
-          echo "TF_CLI_CONFIG_FILE=${TF_CLI_CONFIG_FILE:-<empty>}"
-          env | grep -E '^AWS_' || true
-
-      - name: Force AWS SDK to use env creds (no profile)
-        run: |
-          unset AWS_PROFILE
-          unset AWS_SDK_LOAD_CONFIG
-          unset AWS_CONFIG_FILE
-          unset AWS_SHARED_CREDENTIALS_FILE
-          echo "Cleared AWS profile/config variables"
-
-      - name: Debug TF_VAR presence (safe)
-        run: |
-          if [ -z "${TF_VAR_db_password:-}" ]; then echo "TF_VAR_db_password MISSING"; else echo "TF_VAR_db_password SET"; fi
-          if [ -z "${TF_VAR_certificate_arn:-}" ]; then echo "TF_VAR_certificate_arn MISSING"; else echo "TF_VAR_certificate_arn SET"; fi
+          role-session-name: GitHubActions-Terraform-Plan
 
       - name: Terraform init
         run: terraform init -input=false
