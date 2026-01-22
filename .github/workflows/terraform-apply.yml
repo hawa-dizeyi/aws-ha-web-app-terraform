@@ -37,6 +37,9 @@ jobs:
           role-to-assume: arn:aws:iam::396081123408:role/GitHubActionsTerraformRole
           aws-region: us-east-1
 
+      - name: Sanity check AWS identity (OIDC)
+        run: aws sts get-caller-identity
+
       - name: Debug TF_VAR presence (safe)
         run: |
           if [ -z "${TF_VAR_db_password:-}" ]; then echo "TF_VAR_db_password MISSING"; else echo "TF_VAR_db_password SET"; fi
