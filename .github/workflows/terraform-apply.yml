@@ -37,6 +37,11 @@ jobs:
           role-to-assume: arn:aws:iam::396081123408:role/GitHubActionsTerraformRole
           aws-region: us-east-1
 
+      - name: Debug TF_VAR presence (safe)
+        run: |
+          if [ -z "${TF_VAR_db_password:-}" ]; then echo "TF_VAR_db_password MISSING"; else echo "TF_VAR_db_password SET"; fi
+          if [ -z "${TF_VAR_certificate_arn:-}" ]; then echo "TF_VAR_certificate_arn MISSING"; else echo "TF_VAR_certificate_arn SET"; fi
+
       - name: Terraform init
         run: terraform init -input=false
 
